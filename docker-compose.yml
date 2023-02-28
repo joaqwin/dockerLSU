@@ -1,0 +1,20 @@
+version: '3'
+services:
+  dprocess:
+    image: 'joaqwin/imgprocess:6'
+    ports:
+      - "8080:8080"
+    networks:
+      - "my_network"
+  conejo:
+    image: 'joaqwin/conejoimage:latest'
+    ports:
+      - "15672:15672"
+    networks:
+      - "my_network"
+  prediction:
+    image: 'joaqwin/predictor:2'
+    networks:
+      - "my_network"
+networks:
+  my_network:

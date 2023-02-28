@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conejo
+spec:
+  selector:
+    matchLabels:
+      app: rabbit
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rabbit
+    spec:
+      containers:
+        - name: conejoimage
+          image: joaqwin/conejoimage:latest
+          ports:
+            - containerPort: 15672
+          resources:
+            requests:
+              memory: "150Mi"
+              cpu: "80m"
+            limits:
+              memory: "250Mi"
+              cpu: "280m"

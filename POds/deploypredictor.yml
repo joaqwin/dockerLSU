@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: predictor
+spec:
+  selector:
+    matchLabels:
+      app: predictor
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: predictor
+    spec:
+      containers:
+        - name: predictor
+          image: joaqwin/predictor:4
+          resources:
+            requests:
+              memory: "1000Mi"
+              cpu: "500m"
+            limits:
+              memory: "2000Mi"
+              cpu: "1000m"
+          volumeMounts:
+            - name: host-volume
+              mountPath: /data/pesos.h5
+              subPath: pesos.h5
+            - name: host-volume
+              mountPath: /data/Modelo.h5
+              subPath: Modelo.h5
+            - name : mypvc
+              mountPath: /translations
+      volumes:
+        - name: host-volume
+          hostPath:
+            path: /home/docker/filesTraining/
+            type: Directory
+        - name: mypvc
+          persistentVolumeClaim:
+            claimName: my-pvc
